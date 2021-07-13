@@ -7,15 +7,16 @@ void readInput();
 void readFileToScreen();
 void readAndWrite();
 int main(int argc, char *argv[]) {
-    if (argc == 1) {
+    
+    if (strcmp(argv[1], argv[2]) == 0) {
+        fprintf(stderr, "Input and output file must differ\n");
+        exit(1);
+    } else if (argc == 1) {
         readInput();
     } else if (argc == 2) {
         readFileToScreen(argv[1]);
     } else if (argc == 3) {
         readAndWrite(argv[1], argv[2]);
-    } else if (argv[2] == argv[3]) {
-        fprintf(stderr, "Input and output file must differ\n");
-        exit(1);
     } else {
         printf("usage: reverse <input> <output>\n");
     }
