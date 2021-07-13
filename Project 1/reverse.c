@@ -38,7 +38,7 @@ void readFileToScreen(char tiedosto1[]) {
     char *reversed = NULL;
     size_t len = 0;
     int i = 0;
-    while ((getline(&text, &len, fp)) != -1) {
+    while (getline(&text, &len, fp) != -1) {
         if (reversed == NULL) {
             if ((reversed = (char*)malloc(strlen(text)+1)) == NULL) {
                 fprintf(stderr, "malloc failed\n");
