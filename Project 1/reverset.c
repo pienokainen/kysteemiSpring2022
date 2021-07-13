@@ -9,7 +9,15 @@ void readAndWrite();
 int main(int argc, char *argv[]) {
     char tiedosto1[] = "test.txt";
     char tiedosto2[] = "output.txt";
-    readAndWrite(tiedosto1, tiedosto2);
+    if (argc == 1) {
+        readinput();
+    } else if (argc == 2) {
+        readFileToScreen(argv[1]);
+    } else if (argc == 3) {
+        readAndWrite(argv[1], argv[2]);
+    } else {
+        printf("usage: reverse <input> <output>");
+    }
 }
 
 void readinput() {
