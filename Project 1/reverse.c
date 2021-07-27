@@ -9,7 +9,7 @@ void readFileToScreen();
 void readAndWrite();
 int main(int argc, char *argv[]) {
     if (argc == 1) {
-        //readInput();
+        readInput();
     } else if (argc == 2) {
         readFileToScreen(argv[1]);
     } else if (argc == 3) {
@@ -24,32 +24,32 @@ int main(int argc, char *argv[]) {
     
 }
 
-// void readInput() {
-//     char *text = NULL;
-//     size_t len = 0;
-//     size_t read;
-//     char *reversed;
-//     while ((read = getline(&text, &len, stdin)) != -1 || len == 1) {
-//         printf("%s", text);
-//         if (reversed == NULL) {
-//             reversed = (char*)malloc(strlen(text)+1);
-//             strcpy(reversed, text);
-//             continue;
-//         } 
-//         reversed = (char*)realloc(reversed, strlen(text)+1);
-//         char *temp = (char*)malloc(strlen(reversed));
-//         strcpy(temp, reversed);
-//         strcpy(reversed, text);
-//         if (reversed[strlen(text)-1] != '\n') {
-//             strcat(reversed, "\n");
-//         }
+void readInput() {
+    char *reversed = NULL;
+    char *temp = (char*)malloc((sizeof(char)+1));
+    char *text = (char*)malloc((sizeof(char)+1));
+    while(scanf("%[^\n]%*c",text)==1) {
+         if (reversed == NULL) {
+            if ((reversed = (char*)malloc(strlen(text)+1)) == NULL) {
+                fprintf(stderr, "malloc failed.\n");
+                exit(1);
+            }
+            strcpy(reversed, text);
+            strcat(reversed, "\n");
+            continue;
+        } 
+        if ((reversed = (char*)realloc(reversed, strlen(text)+1)) == NULL) {
+            fprintf(stderr, "malloc failed.\n");
+            exit(1);
+        }
+        strcpy(temp, reversed);
+        strcpy(reversed, text);
+        strcat(reversed, "\n");
+        strcat(reversed, temp);
         
-//         strcat(reversed, temp);
-//         free(temp);
-//     }
-//     free(text);
-//     fclose(stdin);
-// }
+    }
+    printf("%s", reversed);
+}
 
 void readFileToScreen(char tiedosto1[]) {
     FILE *fp;
