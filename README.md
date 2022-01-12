@@ -1,4 +1,4 @@
-# kysteemiSummer
+# kysteemiSpring2022
 
 FIN: Tämä on repo kevään 2022 Käyttöjärjestelmät ja systeemiohjelmoinnin -kurssille! Repon ahkerina koodareina toimii ketkä muutkaan kuin Eerika Peltonen ja Julius Frisk
 
