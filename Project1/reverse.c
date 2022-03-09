@@ -93,7 +93,7 @@ void readFileToScreen(char tiedosto1[]) {
     printf("%s", reversed);
     fclose (fp);
     free(text);
-    free(reversed);
+    
     
     
 }
@@ -145,6 +145,6 @@ void readAndWrite(char tiedosto1[], char tiedosto2[]) {
 	}
     fprintf(fp, "%s", reversed);
     free(text);
-    free(reversed);
+    
 }
 
