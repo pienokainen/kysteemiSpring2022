@@ -49,6 +49,7 @@ void readInput() {
         
     }
     printf("%s", reversed);
+    free(temp);
 }
 
 void readFileToScreen(char tiedosto1[]) {
