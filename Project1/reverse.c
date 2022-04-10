@@ -44,7 +44,7 @@ void readFileToScreen(char tiedosto1[]) {
     FILE *fp;
     
     if((fp = fopen(tiedosto1, "r"))==NULL){
-		printf("error: cannot open file '%s'", tiedosto1);
+		fprintf(stderr, "cannot open file '%s'\n", tiedosto1);
 		exit(1);
 	}
     
@@ -88,7 +88,7 @@ void readAndWrite(char tiedosto1[], char tiedosto2[]) {
     FILE *fp;
     
     if((fp = fopen(tiedosto1, "r"))==NULL){
-		printf("error: cannot open file '%s'", tiedosto1);
+		fprintf(stderr, "cannot open file '%s'\n", tiedosto1);
 		exit(1);
 	}
     
@@ -125,7 +125,7 @@ void readAndWrite(char tiedosto1[], char tiedosto2[]) {
     fclose (fp);
 
     if((fp = fopen(tiedosto2, "w"))==NULL){
-		printf("error: cannot open file '%s'", tiedosto2);
+		fprintf(stderr, "cannot open file '%s'\n", tiedosto2);
 		exit(1);
 	}
     fprintf(fp, "%s", reversed);
