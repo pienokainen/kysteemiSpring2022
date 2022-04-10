@@ -8,7 +8,7 @@
 
 // Suomenkieliset kommentit poistetaan ennen palautusta!!
 /*Tällä hetkellä (10.4.) funktio pystyy vastaanottamaan hyvin 5 sanaa ja printata nämä
-Mutta kun syöttää 6 tulee Segmentation fault loppuun
+Mutta kun syöttää 6 tulee 'Segmentation fault' tai 'free(): invalid size' loppuun
 Ja kun syöttää 7 tulee munmap_chunk(): invalid pointer error
 */
 void readInput() {
