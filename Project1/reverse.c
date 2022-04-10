@@ -121,7 +121,7 @@ void readAndWrite(char tiedosto1[], char tiedosto2[]) {
         free(temp);
     }
         
-    printf("%s", reversed);
+    printf("Input in file '%s' was successfully printed to file '%s'.\n", tiedosto1, tiedosto2);
     fclose (fp);
 
     if((fp = fopen(tiedosto2, "w"))==NULL){
