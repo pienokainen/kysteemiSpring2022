@@ -5,38 +5,50 @@
 #include <stdbool.h>
 
 // Function 1: Read input from user and then print out them in reverse order
-
-// Suomenkieliset kommentit poistetaan ennen palautusta!!
-/*Tällä hetkellä (10.4.) funktio pystyy vastaanottamaan hyvin 5 sanaa ja printata nämä
-Mutta kun syöttää 6 tulee 'Segmentation fault' tai 'free(): invalid size' loppuun
-Ja kun syöttää 7 tulee munmap_chunk(): invalid pointer error
-*/
 void readInput() {
     char *reversed = NULL;
-    char *temp = (char*)malloc((sizeof(char*)+1));
-    char *text = (char*)malloc((sizeof(char*)+1));
+    char *temp = NULL;
+    char *text = NULL;
+    
+    // Allocate memory for user input
+    if ((text = (char*)malloc((sizeof(char*)+1))) == NULL) {
+        fprintf(stderr, "malloc failed.\n");
+        exit(1);
+    }
+
+    // As long as user does not press enter two times (two \n) we ask for input
     while(scanf("%[^\n]%*c",text)==1) {
-         if (reversed == NULL) {
-            if ((reversed = (char*)malloc((strlen(text)+1))) == NULL) {
+        if (reversed == NULL) {
+            if ((reversed = (char*)malloc((strlen(text)+1))) == NULL) { // +1 to have enough room from strlen
                 fprintf(stderr, "malloc failed.\n");
                 exit(1);
             }
             strcpy(reversed, text);
             strcat(reversed, "\n");
             continue;
-        } 
-        if ((reversed = (char*)realloc(reversed, (strlen(text)+1)*sizeof(char*))) == NULL) {
+        }
+        // Allocate memory for temp to have the combined memory of reversed and text
+        if ((temp = (char*)malloc((strlen(reversed)+1)+(strlen(text)+1))) == NULL) {
             fprintf(stderr, "malloc failed.\n");
             exit(1);
         }
+        // We copy data from reversed to temp and then free reversed to malloc it again
         strcpy(temp, reversed);
+        free(reversed);
+        reversed = NULL;
+
+        if ((reversed = (char*)malloc(((strlen(text)+1)+(strlen(temp)+1))*sizeof(char))) == NULL) {
+            fprintf(stderr, "malloc failed.\n");
+            exit(1);
+        }
+
         strcpy(reversed, text);
         strcat(reversed, "\n");
         strcat(reversed, temp);
+        free(temp);
     }
     printf("%s", reversed);
-    free(temp);
-    free(text); // Jos tän rivin poistaa nii ohjelma vuotaa muistia (tsekattu Valgrindilla)
+    free(text);
 }
 
 // Function 2: Read a file containing text and then print it on the screen in reverse order
@@ -53,7 +65,6 @@ void readFileToScreen(char tiedosto1[]) {
     size_t len = 0;
     char *temp;
     while ((getline(&text, &len, fp)) != -1) {
-
         if (reversed == NULL) {
             reversed = (char*)malloc(strlen(text)+1);
             strcpy(reversed, text);
@@ -63,7 +74,7 @@ void readFileToScreen(char tiedosto1[]) {
             fprintf(stderr, "malloc failed.\n");
             exit(1);
         }
-        if ((temp = (char*)malloc(strlen(reversed))) == NULL) {
+        if ((temp = (char*)malloc(strlen(reversed)+1)) == NULL) {
             fprintf(stderr, "malloc failed.\n");
             exit(1);
         }
@@ -97,12 +108,11 @@ void readAndWrite(char tiedosto1[], char tiedosto2[]) {
     size_t len = 0;
     char *temp;
     while ((getline(&text, &len, fp)) != -1) {
-
         if (reversed == NULL) {
             reversed = (char*)malloc(strlen(text)+1);
             strcpy(reversed, text);
             continue;
-        } 
+        }
         if ((reversed = (char*)realloc(reversed, (strlen(text)+1)*sizeof(char*))) == NULL) {
             fprintf(stderr, "malloc failed.\n");
             exit(1);
