@@ -1,36 +1,23 @@
+#define _GNU_SOURCE // Fixes the problem of not finding getline() function on Linux systems
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 
+// Function 1: Read input from user and then print out them in reverse order
 
-void readInput();
-void readFileToScreen();
-void readAndWrite();
-int main(int argc, char *argv[]) {
-    if (argc == 1) {
-        readInput();
-    } else if (argc == 2) {
-        readFileToScreen(argv[1]);
-    } else if (argc == 3) {
-        if (strcmp(argv[1],argv[2]) == 0) {
-            fprintf(stderr, "Input and output files must differ.\n");
-            exit(1);
-        } 
-        readAndWrite(argv[1], argv[2]);
-    } else {
-        printf("usage: reverse <input> <output>");
-    }
-    
-}
-
+// Suomenkieliset kommentit poistetaan ennen palautusta!!
+/*Tällä hetkellä (10.4.) funktio pystyy vastaanottamaan hyvin 5 sanaa ja printata nämä
+Mutta kun syöttää 6 tulee Segmentation fault loppuun
+Ja kun syöttää 7 tulee munmap_chunk(): invalid pointer error
+*/
 void readInput() {
     char *reversed = NULL;
-    char *temp = (char*)malloc((sizeof(char)+1));
-    char *text = (char*)malloc((sizeof(char)+1));
+    char *temp = (char*)malloc((sizeof(char*)+1));
+    char *text = (char*)malloc((sizeof(char*)+1));
     while(scanf("%[^\n]%*c",text)==1) {
          if (reversed == NULL) {
-            if ((reversed = (char*)malloc(strlen(text)+1)) == NULL) {
+            if ((reversed = (char*)malloc((strlen(text)+1))) == NULL) {
                 fprintf(stderr, "malloc failed.\n");
                 exit(1);
             }
@@ -38,7 +25,7 @@ void readInput() {
             strcat(reversed, "\n");
             continue;
         } 
-        if ((reversed = (char*)realloc(reversed, strlen(text)+1)) == NULL) {
+        if ((reversed = (char*)realloc(reversed, (strlen(text)+1)*sizeof(char*))) == NULL) {
             fprintf(stderr, "malloc failed.\n");
             exit(1);
         }
@@ -46,12 +33,13 @@ void readInput() {
         strcpy(reversed, text);
         strcat(reversed, "\n");
         strcat(reversed, temp);
-        
     }
     printf("%s", reversed);
     free(temp);
+    free(text); // Jos tän rivin poistaa nii ohjelma vuotaa muistia (tsekattu Valgrindilla)
 }
 
+// Function 2: Read a file containing text and then print it on the screen in reverse order
 void readFileToScreen(char tiedosto1[]) {
     FILE *fp;
     
@@ -71,7 +59,7 @@ void readFileToScreen(char tiedosto1[]) {
             strcpy(reversed, text);
             continue;
         } 
-        if ((reversed = (char*)realloc(reversed, strlen(text)+1)) == NULL) {
+        if ((reversed = (char*)realloc(reversed, (strlen(text)+1)*sizeof(char*))) == NULL) {
             fprintf(stderr, "malloc failed.\n");
             exit(1);
         }
@@ -93,12 +81,9 @@ void readFileToScreen(char tiedosto1[]) {
     printf("%s", reversed);
     fclose (fp);
     free(text);
-    
-    
-    
 }
 
-
+// Function 3: Read a file containing text and then print it on the screen and write it on other file reversed
 void readAndWrite(char tiedosto1[], char tiedosto2[]) {
     FILE *fp;
     
@@ -118,7 +103,7 @@ void readAndWrite(char tiedosto1[], char tiedosto2[]) {
             strcpy(reversed, text);
             continue;
         } 
-        if ((reversed = (char*)realloc(reversed, strlen(text)+1)) == NULL) {
+        if ((reversed = (char*)realloc(reversed, (strlen(text)+1)*sizeof(char*))) == NULL) {
             fprintf(stderr, "malloc failed.\n");
             exit(1);
         }
@@ -148,3 +133,20 @@ void readAndWrite(char tiedosto1[], char tiedosto2[]) {
     
 }
 
+// Main function to handle different amount of command line arguments
+int main(int argc, char *argv[]) {
+    if (argc == 1) {
+        readInput();
+    } else if (argc == 2) {
+        readFileToScreen(argv[1]);
+    } else if (argc == 3) {
+        if (strcmp(argv[1],argv[2]) == 0) {
+            fprintf(stderr, "Input and output files must differ.\n");
+            exit(1);
+        } 
+        readAndWrite(argv[1], argv[2]);
+    } else {
+        printf("usage: reverse <input> <output>");
+    }
+    
+}
