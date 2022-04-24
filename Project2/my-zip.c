@@ -50,12 +50,12 @@ int main(int argc, char* argv[]) {
             }
         }
         printf("\n");
-        }
+    }
         // If a file is not found:
-        else {
-            printf("my-zip: file1 [file2 ...]\n");
-            exit(1); 
-        }
+    else {
+        printf("my-zip: file1 [file2 ...]\n");
+        exit(1); 
+    }
     
 
     return 0;

@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
             fclose(fp); 
             
             i++;
+            printf("\n");
         }
     }
     

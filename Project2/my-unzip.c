@@ -34,6 +34,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             i++;
+            printf("\n");
             if (i == argc) {
                 break;
             }

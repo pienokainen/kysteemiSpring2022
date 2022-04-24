@@ -17,11 +17,13 @@ int main(int argc, char *argv[]) {
         printf("No files provided");
         exit(0);
     }
+    //Looping through files that were given as command line arguments
     while(true){
         if ((fp = fopen(argv[i], "r")) ==  NULL) {
             printf("my-cat: cannot open file.\n");
             exit(1);
         }
+        // Printing contents
         while ((getline(&text, &len, fp)) != -1) {
             printf("%s", text);
         }
