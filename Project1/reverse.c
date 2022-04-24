@@ -3,7 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-
+/*
+Frisk & Peltonen 
+Käyttöjärjestelmät ja systeemiohjelmointi 2022
+*/
 // Function 1: Read input from user and then print out them in reverse order
 void readInput() {
     char *reversed = NULL;

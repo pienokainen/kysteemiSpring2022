@@ -2,7 +2,10 @@
 #include<stdlib.h>
 #include<string.h>
 #include <stdbool.h>
-
+/*
+Frisk & Peltonen 
+Käyttöjärjestelmät ja systeemiohjelmointi 2022
+*/
 int main(int argc, char *argv[]) {
     FILE *fp;
     char *text = NULL;
@@ -10,7 +13,6 @@ int main(int argc, char *argv[]) {
     int i = 2;
     if (argc > 2) {
         while (i+1 <= argc) {
-            printf("%i \n",i);
             if ((fp = fopen(argv[i], "r")) == NULL) {
                 printf("my-grep: cannot open file.\n");
                 exit(1);

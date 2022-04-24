@@ -2,7 +2,10 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include <stdbool.h>
-
+/*
+Frisk & Peltonen 
+Käyttöjärjestelmät ja systeemiohjelmointi 2022
+*/
 
 int main(int argc, char *argv[]) {
     int i = 1;

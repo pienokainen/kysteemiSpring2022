@@ -1,40 +1,46 @@
-#include<stdlib.h>
-#include<stdio.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
-
+/*
+Frisk & Peltonen 
+Käyttöjärjestelmät ja systeemiohjelmointi 2022
+*/
 int main(int argc, char* argv[]) {
     if (argc > 1) {
         FILE *fp;
-        char lc = '\0';
-        char c = '\0';  
+        char prev = '\0'; //variable to compare char c with the previous character (prev)
+        char c = '\0';  // character that is being read currently
         int n = 1;
         int i = 1;     
         while (true) {
+            //Trying to open inputted file
             if ((fp = fopen(argv[i], "r"))== NULL) {
                 printf("my-zip: cannot open file\n");
                 exit(1);
             }
-            if (lc == '\0') {
-                lc = getc(fp);
+            // Gets first character when variable prev is not set
+            if (prev == '\0') {
+                prev = getc(fp);
             }
-                
+            // This checks if character is found
             while ((c = getc(fp)) != EOF){
-                if (c == lc) {
+                //Current character comapred with previous character
+                if (c == prev) {
                     
                     n += 1;
                 } else {
-                    
+                    // Writing the character and how many were found
                     fwrite(&n, 4, 1, stdout);
-                    fwrite(&lc, 1, 1, stdout);
+                    fwrite(&prev, 1, 1, stdout);
                     n = 1;
                 }
                 
-                lc = c;
+                prev = c;
             }
-            
+            // The conclusion of characters and how many times each character was present in the file
             if(i == argc - 1) {
                 fwrite(&n, 4, 1, stdout);
-                fwrite(&lc, 1, 1, stdout);
+                fwrite(&prev, 1, 1, stdout);
                 n = 1;
             }
             fclose(fp);
@@ -43,7 +49,9 @@ int main(int argc, char* argv[]) {
                 break;
             }
         }
+        printf("\n");
         }
+        // If a file is not found:
         else {
             printf("my-zip: file1 [file2 ...]\n");
             exit(1); 
@@ -54,7 +62,3 @@ int main(int argc, char* argv[]) {
 }
 
 
-//if (argc == 1) {
-        
-    //     printf("my-zip: file1 [file2 ...]\n");
-    //     exit(1);
